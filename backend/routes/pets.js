@@ -1,4 +1,4 @@
-import petsModel from "../models/petsModel.js";
+const petsModel = require('../models/petsModel');
 const express = require('express');
 const router = express.Router();
 

@@ -3,7 +3,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const petRoutes = require('./routes/pets');
 const ticketRoutes = require('./routes/tickets');
-const chatbotlogRoutes = require('./routes/chatbotLog')
+import chatbotlogRoutes from './routes/chatbotLog.js';
 
 const app = express();
 app.use(cors());

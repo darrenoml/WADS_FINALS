@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-import ticketModel from "ticketModel.js";
+const ticketModel = require('../models/ticketModel');
 
 router.post('/', async (req, res) => {
   // submit adoption request

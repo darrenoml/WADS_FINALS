@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
-
-const petSchema = mongoose.Schema({
+const petSchema = new mongoose.Schema({
     pet_name: {
         type: String
         ,required: true
@@ -11,7 +10,7 @@ const petSchema = mongoose.Schema({
         ,required: true
     },
     pet_sex: {
-        type: char
+        type: String
         , required: true
     },
     pet_desc: {
@@ -27,4 +26,6 @@ const petSchema = mongoose.Schema({
     timestamps: true
 })
 
-export default mongoose.model('Pets', petSchema)
+
+const petsModel = mongoose.model('Pets', petSchema);
+export default petsModel;

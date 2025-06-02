@@ -1,6 +1,7 @@
-const express = require('express');
-const router = express.Router();
+import express from 'express';
 import chatbotLogModel from "../models/chatbotLogModel.js";
+
+const router = express.Router();
 
 router.get('/', async (req, res) => {
   // return all chatbot logs
@@ -60,4 +61,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

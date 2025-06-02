@@ -1,44 +1,46 @@
-import mongoose from "mongoose";
-import petsModel from "petsModel.js";
-import userModel from "userModel.js";
+import mongoose from 'mongoose';
+import petsModel from './petsModel.js';
+import userModel from './userModel.js';
 
-const ticketSchema = mongoose.Schema({
-    ticket_id:{
-        type:Int
-        ,required:true
-        ,index:true
+const { Schema } = mongoose;  // Add this line to extract Schema from mongoose
+
+const ticketSchema = new Schema({
+    ticket_id: {
+        type: Number,
+        required: true,
+        index: true
     },
-    adopter_id:[
-        {type: Schema.Types.ObjectId, ref: 'Users', required:true}
+    adopter_id: [
+        { type: Schema.Types.ObjectId, ref: 'Users', required: true }
     ],
-    pet_id:[
-        {type: Schema.Types.ObjectId, ref: 'Pets', required:true}
+    pet_id: [
+        { type: Schema.Types.ObjectId, ref: 'Pets', required: true }
     ],
-    responder_id:[
-        {type: Schema.Types.ObjectId, ref: 'Users'}
+    responder_id: [
+        { type: Schema.Types.ObjectId, ref: 'Users' }
     ],
-    message:{
-        type: String
-        ,default: ""
+    message: {
+        type: String,
+        default: ""
     },
-    status:{
-        type: String
-        ,default: "Pending"
+    status: {
+        type: String,
+        default: "Pending"
     },
-    ticket_opened:{
+    ticket_opened: {
+        type: Date,
+        required: true
+    },
+    ticket_handled: {
         type: Date
-        ,required:true
     },
-    ticket_handled:{
+    ticket_closed: {
         type: Date
-    },
-    ticket_closed:{
-        type:Date
     }
 }, {
-    timestamps:{
+    timestamps: {
         createdAt: true
     }
-})
+});
 
-export default mongoose.model('Tickets', ticketSchema)
+export default mongoose.model('Tickets', ticketSchema);
