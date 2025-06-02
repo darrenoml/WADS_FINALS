@@ -1,31 +1,13 @@
 import mongoose from 'mongoose';
-const petSchema = new mongoose.Schema({
-    pet_name: {
-        type: String
-        ,required: true
-        ,index: true
-    },
-    pet_image: {
-        type: String
-        ,required: true
-    },
-    pet_sex: {
-        type: String
-        , required: true
-    },
-    pet_desc: {
-        type: String
-        ,maxLength: 500
-        ,default: ""
-    },
-    pet_type: {
-        type: String
-        ,required: true
-    }
-}, {
-    timestamps: true
-})
 
+const petSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  species: { type: String, required: true },
+  age: { type: Number, required: true },
+  // Add other pet fields as needed
+}, {
+  timestamps: true,
+});
 
 const petsModel = mongoose.model('Pets', petSchema);
 export default petsModel;

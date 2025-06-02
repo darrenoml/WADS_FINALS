@@ -1,18 +1,26 @@
-const express = require('express');
-const cors = require('cors');
-const authRoutes = require('./routes/auth');
-const petRoutes = require('./routes/pets');
-const ticketRoutes = require('./routes/tickets');
-import chatbotlogRoutes from './routes/chatbotLog.js';
+import express from 'express';
+import mongoose from 'mongoose';
+import petsRoutes from './routes/pets.js';
+import ticketsRoutes from './routes/tickets.js';
+import chatbotLogRoutes from './routes/chatbotLog.js';
 
 const app = express();
-app.use(cors());
+const PORT = process.env.PORT || 5000;
+
 app.use(express.json());
 
-app.use('/api/auth', authRoutes);
-app.use('/api/pets', petRoutes);
-app.use('/api/tickets', ticketRoutes);
-app.use('/api/chatbotlog', chatbotlogRoutes)
+// Connect to MongoDB
+const uri = 'mongodb://e2425-wads-l4bcg5:9ribexo1@localhost:27017/?authSource=e2425-wads-l4bcg5';
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
+// Routes
+app.use('/api/pets', petsRoutes);
+app.use('/api/tickets', ticketsRoutes);
+app.use('/api/chatbotlog', chatbotLogRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
