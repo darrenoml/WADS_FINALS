@@ -5,9 +5,9 @@ services:
     image: nincompoop92/adoptme-backend:latest
     restart: always
     environment:
-      PORT: 5000
-      MONGODB_URI: mongodb://e2425-wads-l4bcg5:9ribexo1@10.25.143.17:27017/?authSource=e2425-wads-l4bcg5
-      REFRESH_TOKEN_SECRET: arH3tuiDgtr8zh9sFo4mseRri4zwV3iufeghwD83izoSUSurhq38w4guerx9woz4AhtGem8xuadbw38iu4Ddg5bemTowuibfgeUo4eb5rhyBGz
+      PORT: ${PORT}
+      MONGODB_URI: ${MONGODB_URI}
+      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
     ports:
       - "3024:3024"
 
