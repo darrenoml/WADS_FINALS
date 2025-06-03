@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const userSchema = mongoose.Schema({
     personal_id:{
@@ -43,4 +43,5 @@ const userSchema = mongoose.Schema({
 
 userSchema.index({ "personal_id": 1, "email": 1})
 
-userSchema
+const userModel = mongoose.model('Users', userSchema);
+export default userModel;

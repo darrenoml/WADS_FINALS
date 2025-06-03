@@ -1,11 +1,8 @@
-const express = require('express');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+import express from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 const router = express.Router();
-const Users = require('../models/userModel'); // fix name if needed
-const { validateEmail, validatePassword, isMatch } = require('../utils/validators'); // make sure these exist
-const User = require('../models/userModel');
-const express = require('express');
+import Users from '../models/userModel.js';
 
 const createAccessToken = (payload) => jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
 const createRefreshToken = (payload) => jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
@@ -118,4 +115,5 @@ router.post('/logout', (req, res) => {
   res.status(200).json({ message: 'Logged out successfully' });
 });
 
-module.exports = router;
+export default router;
+
