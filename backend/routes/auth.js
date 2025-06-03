@@ -1,6 +1,14 @@
+const express = require('express');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const router = express.Router();
+const Users = require('../models/userModel'); // fix name if needed
+const { validateEmail, validatePassword, isMatch } = require('../utils/validators'); // make sure these exist
 const User = require('../models/userModel');
 const express = require('express');
-const router = express.Router();
+
+const createAccessToken = (payload) => jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+const createRefreshToken = (payload) => jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
 
 // Firebase Auth can be used here if you prefer it
 router.post('/register', async (req, res) => {
@@ -58,46 +66,56 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  // handle login, return JWT
   try {
-        const { email, password } = req.body;
+    const { email, password } = req.body;
 
-        const user = await Users.findOne({ email })
+    if (!email || !password) return res.status(400).json({ message: "Please fill in all fields" });
 
-        if (!email || !password) return res.status(400).json({ message: "Please fill in all fields" })
+    const user = await Users.findOne({ email });
+    if (!user) return res.status(400).json({ message: "No user was found with the associated email" });
 
-        if (!user) return res.status(400).json({ message: "No user was found with the associated email" })
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-        const isMatch = await bcrypt.compare(password, user.password)
-        if (!isMatch) return res.status(400).json({ message: "Invalid Credentials" })
+    const accessToken = createAccessToken({ id: user._id });
+    const refreshToken = createRefreshToken({ id: user._id });
 
-        const refresh_token = createRefreshToken({ id: user._id })
+    const expiry = 24 * 60 * 60 * 1000; // 1 day
 
-        const expiry = 24 * 60 * 60 * 1000 // 1 day
+    res.cookie('refreshtoken', refreshToken, {
+      httpOnly: true,
+      secure: true, // ⬅️ make sure your app uses HTTPS in prod
+      sameSite: 'Strict',
+      path: '/api/users/refresh_token',
+      maxAge: expiry
+    });
 
-        res.cookie('refreshtoken', refresh_token, {
-            httpOnly: true,
-            path: '/api/user/refresh_token',
-            maxAge: expiry,
-            expires: new Date(Date.now() + expiry)
-        })
+    res.cookie('accesstoken', accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'Strict',
+      path: '/',
+      maxAge: 15 * 60 * 1000 // 15 minutes
+    });
 
-        res.json({
-            message: "Sign In successfully!",
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email
-            }
-        })
+    res.status(200).json({
+      message: "Signed in successfully!",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
+      }
+    });
 
-    } catch (error) {
-        return res.status(500).json({ message: error.message });
-    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 });
 
 router.post('/logout', (req, res) => {
-  // handle logout
+  res.clearCookie('refreshtoken', { path: '/api/users/refresh_token' });
+  res.clearCookie('accesstoken', { path: '/' });
+  res.status(200).json({ message: 'Logged out successfully' });
 });
 
 module.exports = router;

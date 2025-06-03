@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Adopt Moneymaker - Application Form</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo-banner">
+            <img src="ahs.jpeg" alt="Animals Hope Shelter Logo" class="logo" />
+            <span class="shelter-name">Animals Hope Shelter</span>
+        </div>
+        <nav class="nav-buttons">
+    <button onclick="location.href='index.html'">Home</button>
+    <button onclick="location.href='options.html'">Adopt a Pet!</button>
+    <button onclick="location.href='my-account.html'">My Account</button>
+    <button onclick="location.href='about.html'">About</button>
+    <button onclick="location.href='contact.html'">Contact</button>
+</nav>
+    </header>
+
+    <main>
+        <h1 class="section-title">Adoption Application for Moneymaker</h1>
+        <form action="submit-adoption.php" method="POST" class="adoption-form" style="max-width: 450px; margin: auto;">
+            
+            <label for="fullName">Full Name:</label><br />
+            <input type="text" id="fullName" name="fullName" required /><br /><br />
+
+            <label for="email">Email Address:</label><br />
+            <input type="email" id="email" name="email" required /><br /><br />
+
+            <label for="phone">Phone Number:</label><br />
+            <input type="tel" id="phone" name="phone" required /><br /><br />
+
+            <label for="address">Address:</label><br />
+            <input type="text" id="address" name="address" placeholder="Street Address" required /><br /><br />
+            
+            <input type="text" id="city" name="city" placeholder="City" required style="width: 48%; display: inline-block;" />
+            <input type="text" id="state" name="state" placeholder="State" required style="width: 24%; display: inline-block; margin-left: 4%;" />
+            <input type="text" id="zip" name="zip" placeholder="Zip Code" required style="width: 24%; display: inline-block; margin-left: 4%;" /><br /><br />
+
+            <label>Home Type:</label><br />
+            <input type="checkbox" id="apartment" name="homeType" value="Apartment" />
+            <label for="apartment" style="display: inline;">Apartment</label><br />
+            <input type="checkbox" id="house" name="homeType" value="House" />
+            <label for="house" style="display: inline;">House</label><br />
+            <input type="checkbox" id="other" name="homeType" value="Other" />
+            <label for="other" style="display: inline;">Other</label><br /><br />
+
+            <input type="checkbox" id="backyard" name="backyard" value="Yes" />
+            <label for="backyard">Do you have a backyard?</label><br /><br />
+
+            <label>House Size:</label><br />
+            <input type="radio" id="small" name="houseSize" value="Small" required />
+            <label for="small" style="display: inline;">Small</label><br />
+            <input type="radio" id="medium" name="houseSize" value="Medium" />
+            <label for="medium" style="display: inline;">Medium</label><br />
+            <input type="radio" id="large" name="houseSize" value="Large" />
+            <label for="large" style="display: inline;">Large</label><br /><br />
+
+            <label for="experience">Do you have experience with dogs? (Briefly)</label><br />
+            <textarea id="experience" name="experience" rows="3" required></textarea><br /><br />
+
+            <label for="message">Why do you want to adopt Moneymaker?</label><br />
+            <textarea id="message" name="message" rows="4" required></textarea><br /><br />
+
+            <a href="my-account.html" class="adopt-button" style="display: inline-block; text-align: center;">Submit Application</a>
+
+        </form>
+    </main>
+</body>
+</html>

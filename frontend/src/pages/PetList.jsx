@@ -25,7 +25,7 @@ export default function PetList() {
     src="https://www.chatbase.co/chatbot-iframe/nRrT1Y0iXTZxtPCVzdsY5"
     width="100%"
     style="height: 100%; min-height: 700px"
-    frameborder="0"
+    frameBorder="0"
 ></iframe>
       </div>
     </div>

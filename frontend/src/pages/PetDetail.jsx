@@ -1,26 +1,27 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
-export default function PetDetail() {
+function PetDetail() {
+  const { id } = useParams();
+  const [pet, setPet] = useState(null);
+
+  useEffect(() => {
+    axios.get(`http://localhost:3024/api/pets/${id}`)
+      .then(res => setPet(res.data))
+      .catch(err => console.error('Error fetching pet:', err));
+  }, [id]);
+
+  if (!pet) return <p>Loading...</p>;
+
   return (
-    <div>
-      <h1>Meet Moneymaker!</h1>
-      <div className="dog-card">
-        <img src="moneymaker.avif" alt="Shiba Inu" />
-        <p>
-          Moneymaker is a clever Shiba Inu with a signature smirk. Ideal for experienced dog owners.
-          Vaccinated, neutered, and ready to be respected and adored like the savvy soul he is.
-        </p>
-        <Link to="/adopt/moneymaker"><button>Adopt Moneymaker</button></Link>
-      </div>
-      <div>
-        <iframe
-    src="https://www.chatbase.co/chatbot-iframe/nRrT1Y0iXTZxtPCVzdsY5"
-    width="100%"
-    style="height: 100%; min-height: 700px"
-    frameborder="0"
-></iframe>
-      </div>
+    <div style={{ padding: '2rem' }}>
+      <h2>{pet.name}</h2>
+      <p>Breed: {pet.breed}</p>
+      <p>Age: {pet.age}</p>
+      <p>Description: {pet.description}</p>
     </div>
   );
 }
+
+export default PetDetail;
